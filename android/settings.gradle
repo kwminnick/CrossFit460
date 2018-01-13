@@ -1,0 +1,3 @@
+rootProject.name = 'CrossFit460'
+
+include ':app'
