@@ -11,7 +11,8 @@ import {
   Text,
   View,
   ScrollView,
-  FlatList
+  FlatList,
+  WebView
 } from 'react-native';
 
 import Tabs from 'react-native-tabs';
@@ -47,8 +48,13 @@ export default class App extends Component<{}> {
 
   render() {
     let page = (<WodGetter />);
-    if(this.state.page === 'News') {
-      page = (<Text>News</Text>);
+    if(this.state.page === 'Schedule') {
+      page = (
+          <WebView
+            source={{uri: 'https://www.crossfit460.com/schedule'}}
+            style={{width: 320, flex: 1}}
+          />
+      );
     }
     else if(this.state.page === 'About') {
       page = (<Text>About</Text>);
@@ -65,7 +71,7 @@ export default class App extends Component<{}> {
                 selectedIconStyle={{borderTopWidth:2,borderTopColor:'#E16D36'}}
                 selectedStyle={{color:'#E16D36'}} onSelect={el=>this.setState({page:el.props.name})}>
               <Text name="WOD">WOD</Text>
-              <Text name="News">News</Text>
+              <Text name="Schedule">Schedule</Text>
               <Text name="About">About</Text>
           </Tabs>
         </View>
@@ -76,7 +82,7 @@ export default class App extends Component<{}> {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
     marginTop: 10,
