@@ -12,7 +12,8 @@ import {
   View,
   ScrollView,
   FlatList,
-  WebView
+  WebView,
+  ActivityIndicator
 } from 'react-native';
 
 import Tabs from 'react-native-tabs';
@@ -46,6 +47,12 @@ export default class App extends Component<{}> {
     this.state = {page:'WOD'};
   }
 
+  renderLoadingView() {
+    return (
+      <ActivityIndicator size='large' />
+    );
+  }
+
   render() {
     let page = (<WodGetter />);
     if(this.state.page === 'Schedule') {
@@ -53,6 +60,8 @@ export default class App extends Component<{}> {
           <WebView
             source={{uri: 'https://www.crossfit460.com/schedule'}}
             style={{width: 320, flex: 1}}
+            renderLoading={this.renderLoadingView}
+            startInLoadingState={true}
           />
       );
     }
