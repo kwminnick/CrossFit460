@@ -13,33 +13,14 @@ import {
   ScrollView,
   FlatList,
   WebView,
-  ActivityIndicator
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 
+import { ListItem } from 'react-native-elements';
 import Tabs from 'react-native-tabs';
 
 import WodGetter from './lib/WodGetter';
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-class WodList extends Component {
-  render() {
-    return(
-      <FlatList
-        data={[
-          {key: '20180118'},
-          {key: '20180117'}
-        ]}
-        renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
-      />
-    );
-  }
-}
 
 export default class App extends Component<{}> {
   constructor(props) {
@@ -57,16 +38,48 @@ export default class App extends Component<{}> {
     let page = (<WodGetter />);
     if(this.state.page === 'Schedule') {
       page = (
+        <View style={{flex:1, flexDirection: 'row', justifyContent:'center'}}>
           <WebView
             source={{uri: 'https://www.crossfit460.com/schedule'}}
-            style={{width: 320, flex: 1}}
+            style={{flex: 1}}
             renderLoading={this.renderLoadingView}
             startInLoadingState={true}
           />
+        </View>
       );
     }
     else if(this.state.page === 'About') {
-      page = (<Text>About</Text>);
+      page = (
+        <View style={styles.aboutView}>
+          <Text style={styles.aboutText}>©2018 Minnick Fitness, dba CrossFit 460</Text>
+          <Text style={styles.aboutText}>All Rights Reserved</Text>
+          <Text style={styles.aboutText}>Version 1.0.0</Text>
+          <Text style={styles.aboutText}> </Text>
+          <Text style={styles.aboutText}>CrossFit is a registered trademark of CrossFit, Inc.</Text>
+          <Text style={styles.aboutText}>CrossFit 460 is a registered affiliate of CrossFit, Inc</Text>
+        </View>
+        /*
+         // TODO - Switch app to navigation app in next version
+        <View
+          style={styles.aboutListView}>
+        <FlatList
+          data={[
+            {key: 'News'},
+            {key: 'About'},
+          ]}
+          renderItem={({item}) => {
+            return (
+              <ListItem
+                title={`${item.key}`}
+                fontFamily='Roboto'
+                onPress={this.getAboutItem.bind(this, item.key)}
+              />
+            );
+          }}
+        />
+      </View>
+      */
+      );
     }
 
     return (
@@ -94,8 +107,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    marginTop: 10,
-    marginLeft: 20,
+    marginTop: 0,
+    marginLeft: 0,
+    marginRight: 0,
   },
   item: {
     padding: 10,
@@ -114,4 +128,21 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'Roboto',
   },
+  aboutListView: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    margin: 10,
+    marginRight: 20,
+  },
+  aboutView: {
+    justifyContent: 'center',
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  aboutText: {
+    textAlign: 'center',
+    fontFamily: 'Roboto',
+    fontSize: 16,
+  }
 });
