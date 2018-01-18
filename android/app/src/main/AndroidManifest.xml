@@ -32,6 +32,11 @@
         android:windowSoftInputMode="adjustResize">
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="edb516ac0719f18933ee496dd09e8fc3f384ec27" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="edb516ac0719f18933ee496dd09e8fc3f384ec27" />
     </application>
-
 </manifest>

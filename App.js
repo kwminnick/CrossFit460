@@ -20,6 +20,10 @@ import {
 import { ListItem } from 'react-native-elements';
 import Tabs from 'react-native-tabs';
 
+var Fabric = require('react-native-fabric');
+var { Crashlytics } = Fabric;
+var { Answers } = Fabric;
+
 import WodGetter from './lib/WodGetter';
 
 export default class App extends Component<{}> {
@@ -82,6 +86,7 @@ export default class App extends Component<{}> {
       );
     }
 
+    Answers.logCustom(`Viewed: ${this.state.page}`)
     return (
       <View style={{flex:1}}>
         <View style={styles.header}>
