@@ -19,6 +19,7 @@ import {
 
 import { ListItem } from 'react-native-elements';
 import Tabs from 'react-native-tabs';
+import SplashScreen from 'react-native-splash-screen';
 
 var Fabric = require('react-native-fabric');
 var { Crashlytics } = Fabric;
@@ -30,6 +31,10 @@ export default class App extends Component<{}> {
   constructor(props) {
     super(props);
     this.state = {page:'WOD'};
+  }
+
+  componentDidMount() {
+    SplashScreen.hide();
   }
 
   renderLoadingView() {
