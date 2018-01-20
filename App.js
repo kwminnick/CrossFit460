@@ -15,6 +15,9 @@ import {
   WebView,
   ActivityIndicator,
   Alert,
+  SafeAreaView,
+  RefreshControl,
+  AppState,
 } from 'react-native';
 
 import { ListItem } from 'react-native-elements';
@@ -30,11 +33,27 @@ import WodGetter from './lib/WodGetter';
 export default class App extends Component<{}> {
   constructor(props) {
     super(props);
-    this.state = {page:'WOD'};
+    this.state = {
+      page:'WOD',
+      appState: AppState.currentState,
+    };
   }
 
   componentDidMount() {
     SplashScreen.hide();
+    AppState.addEventListener('change', this._handleAppStateChange);
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      // refresh the wod if the app is opening
+      this.setState({page:'WOD'});
+    }
+    this.setState({appState: nextAppState});
   }
 
   renderLoadingView() {
@@ -93,6 +112,7 @@ export default class App extends Component<{}> {
 
     Answers.logCustom(`Viewed: ${this.state.page}`)
     return (
+      <SafeAreaView style={styles.safeArea}>
       <View style={{flex:1}}>
         <View style={styles.header}>
           <Text style={styles.headerText}>CrossFit 460</Text>
@@ -108,11 +128,16 @@ export default class App extends Component<{}> {
           </Tabs>
         </View>
       </View>
+    </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -129,12 +154,12 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'column',
     backgroundColor: '#F16521',
-    height: 80,
+    height: 40,
   },
   headerText: {
     color: '#ffffff',
-    fontSize: 40,
-    marginTop: 20,
+    fontSize: 24,
+    marginTop: 5,
     textAlign: 'center',
     fontFamily: 'Roboto',
   },
