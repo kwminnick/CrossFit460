@@ -128,6 +128,16 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
     }
+    signingConfigs {
+        release {
+            if (project.hasProperty('CROSSFIT460_RELEASE_STORE_FILE')) {
+                storeFile file(CROSSFIT460_RELEASE_STORE_FILE)
+                storePassword CROSSFIT460_RELEASE_STORE_PASSWORD
+                keyAlias CROSSFIT460_RELEASE_KEY_ALIAS
+                keyPassword CROSSFIT460_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
     splits {
         abi {
             reset()
@@ -140,6 +150,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release

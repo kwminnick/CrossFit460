@@ -20,7 +20,6 @@ import {
   AppState,
 } from 'react-native';
 
-import { ListItem } from 'react-native-elements';
 import Tabs from 'react-native-tabs';
 import SplashScreen from 'react-native-splash-screen';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
