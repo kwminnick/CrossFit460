@@ -97,9 +97,9 @@ export default class App extends Component<{}> {
     let page = (<WodGetter />);
     if(this.state.page === 'Schedule') {
       page = (
-        <View style={{flex:1, flexDirection: 'row', justifyContent:'center'}}>
+        <View style={{flex:1, flexDirection: 'row', justifyContent:'center', margin: 20}}>
           <WebView
-            source={{uri: 'https://www.crossfit460.com/schedule'}}
+            source={{uri: 'https://www.crossfit460.com/schedule-mobile-app'}}
             style={{flex: 1}}
             renderLoading={this.renderLoadingView}
             startInLoadingState={true}
