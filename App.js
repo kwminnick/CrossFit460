@@ -22,7 +22,6 @@ import {
 
 import Tabs from 'react-native-tabs';
 import SplashScreen from 'react-native-splash-screen';
-import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 
 var Fabric = require('react-native-fabric');
 var { Crashlytics } = Fabric;
@@ -36,7 +35,6 @@ export default class App extends Component<{}> {
     this.state = {
       page: 'WOD',
       appState: AppState.currentState,
-      gestureName: 'none',
       pageIndex: 0,
     };
   }
@@ -50,24 +48,6 @@ export default class App extends Component<{}> {
       page = 'About';
     }
     this.setState({page:page});
-  }
-
-  onSwipeRight(gestureState) {
-    pageIndex = this.state.pageIndex;
-    if (pageIndex > 0) {
-      pageIndex--;
-    }
-    this.setPage(pageIndex);
-    this.setState({pageIndex: pageIndex});
-  }
-
-  onSwipeLeft(gestureState) {
-    pageIndex = this.state.pageIndex;
-    if (pageIndex < 2) {
-      pageIndex++;
-    }
-    this.setPage(pageIndex);
-    this.setState({pageIndex: pageIndex});
   }
 
   componentDidMount() {
@@ -150,20 +130,14 @@ export default class App extends Component<{}> {
 
     return (
       <SafeAreaView style={styles.safeArea}>
-      <View style={{flex:1}}>
+      <View style={{flex:1, justifyContent: 'space-between'}}>
         <View style={styles.header}>
           <Text style={styles.headerText}>CrossFit 460</Text>
         </View>
-        <GestureRecognizer
-          onSwipeLeft={(state) => this.onSwipeLeft(state)}
-          onSwipeRight={(state) => this.onSwipeRight(state)}
-          config={config}
-          style={{
-            flex: 1,
-          }}
-        >
         <View style={styles.container}>
           {page}
+        </View>
+        <View style={{height: 50}}>
           <Tabs selected={this.state.page} style={{backgroundColor:'white'}}
                 selectedIconStyle={{borderTopWidth:2,borderTopColor:'#E16D36'}}
                 selectedStyle={{color:'#E16D36'}} onSelect={el=>this.setState({page:el.props.name})}>
@@ -172,7 +146,6 @@ export default class App extends Component<{}> {
               <Text name="About">About</Text>
           </Tabs>
         </View>
-      </GestureRecognizer>
       </View>
     </SafeAreaView>
     );
@@ -180,18 +153,12 @@ export default class App extends Component<{}> {
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    height: 300,
-  },
   safeArea: {
     flex: 1,
     backgroundColor: '#ffffff',
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
     marginTop: 0,
     marginLeft: 0,
     marginRight: 0,
@@ -202,7 +169,6 @@ const styles = StyleSheet.create({
     height: 44,
   },
   header: {
-    flexDirection: 'column',
     backgroundColor: '#F16521',
     height: 40,
   },

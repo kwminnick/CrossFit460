@@ -13,6 +13,7 @@
     "react-native-render-html": "^3.7.0",
     "react-native-splash-screen": "^3.0.6",
     "react-native-swipe-gestures": "^1.0.2",
+    "react-native-swiper": "^1.5.13",
     "react-native-tabs": "^1.0.9",
     "react-native-vector-icons": "^4.5.0"
   },
