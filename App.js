@@ -44,7 +44,7 @@ export default class App extends Component<{}> {
       page = 'Schedule';
     }
     else if (pageIndex === 2) {
-      page = 'More';
+      page = 'About';
     }
     this.setState({page:page});
   }
@@ -86,7 +86,7 @@ export default class App extends Component<{}> {
         </View>
       );
     }
-    else if(this.state.page === 'More') {
+    else if(this.state.page === 'About') {
       page = (<AboutListView />);
     }
 
@@ -112,7 +112,7 @@ export default class App extends Component<{}> {
                 selectedStyle={{color:'#E16D36'}} onSelect={el=>this.setState({page:el.props.name})}>
               <Text name="WOD">WOD</Text>
               <Text name="Schedule">Schedule</Text>
-              <Text name="More">More</Text>
+              <Text name="About">About</Text>
           </Tabs>
         </View>
       </View>
@@ -132,11 +132,6 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     marginRight: 0,
   },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-  },
   header: {
     backgroundColor: '#F16521',
     height: 40,
@@ -147,12 +142,5 @@ const styles = StyleSheet.create({
     marginTop: 5,
     textAlign: 'center',
     fontFamily: 'Roboto',
-  },
-  aboutListView: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    margin: 10,
-    marginRight: 20,
   },
 });
