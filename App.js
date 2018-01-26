@@ -11,10 +11,8 @@ import {
   Text,
   View,
   ScrollView,
-  FlatList,
   WebView,
   ActivityIndicator,
-  Alert,
   SafeAreaView,
   RefreshControl,
   AppState,
@@ -28,6 +26,7 @@ var { Crashlytics } = Fabric;
 var { Answers } = Fabric;
 
 import WodGetter from './lib/WodGetter';
+import AboutListView from './lib/AboutListView';
 
 export default class App extends Component<{}> {
   constructor(props) {
@@ -45,7 +44,7 @@ export default class App extends Component<{}> {
       page = 'Schedule';
     }
     else if (pageIndex === 2) {
-      page = 'About';
+      page = 'More';
     }
     this.setState({page:page});
   }
@@ -87,7 +86,9 @@ export default class App extends Component<{}> {
         </View>
       );
     }
-    else if(this.state.page === 'About') {
+    else if(this.state.page === 'More') {
+      page = (<AboutListView />);
+      /*
       page = (
         <View style={styles.aboutView}>
           <Text style={styles.aboutText}>©2018 Minnick Fitness, dba CrossFit 460</Text>
@@ -97,28 +98,8 @@ export default class App extends Component<{}> {
           <Text style={styles.aboutText}>CrossFit is a registered trademark of CrossFit, Inc.</Text>
           <Text style={styles.aboutText}>CrossFit 460 is a registered affiliate of CrossFit, Inc</Text>
         </View>
-        /*
-         // TODO - Switch app to navigation app in next version
-        <View
-          style={styles.aboutListView}>
-        <FlatList
-          data={[
-            {key: 'News'},
-            {key: 'About'},
-          ]}
-          renderItem={({item}) => {
-            return (
-              <ListItem
-                title={`${item.key}`}
-                fontFamily='Roboto'
-                onPress={this.getAboutItem.bind(this, item.key)}
-              />
-            );
-          }}
-        />
-      </View>
-      */
       );
+      */
     }
 
     Answers.logCustom(`Viewed: ${this.state.page}`)
@@ -143,7 +124,7 @@ export default class App extends Component<{}> {
                 selectedStyle={{color:'#E16D36'}} onSelect={el=>this.setState({page:el.props.name})}>
               <Text name="WOD">WOD</Text>
               <Text name="Schedule">Schedule</Text>
-              <Text name="About">About</Text>
+              <Text name="More">More</Text>
           </Tabs>
         </View>
       </View>
