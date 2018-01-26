@@ -88,18 +88,6 @@ export default class App extends Component<{}> {
     }
     else if(this.state.page === 'More') {
       page = (<AboutListView />);
-      /*
-      page = (
-        <View style={styles.aboutView}>
-          <Text style={styles.aboutText}>©2018 Minnick Fitness, dba CrossFit 460</Text>
-          <Text style={styles.aboutText}>All Rights Reserved</Text>
-          <Text style={styles.aboutText}>Version 1.0.0</Text>
-          <Text style={styles.aboutText}> </Text>
-          <Text style={styles.aboutText}>CrossFit is a registered trademark of CrossFit, Inc.</Text>
-          <Text style={styles.aboutText}>CrossFit 460 is a registered affiliate of CrossFit, Inc</Text>
-        </View>
-      );
-      */
     }
 
     Answers.logCustom(`Viewed: ${this.state.page}`)
@@ -167,15 +155,4 @@ const styles = StyleSheet.create({
     margin: 10,
     marginRight: 20,
   },
-  aboutView: {
-    justifyContent: 'center',
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 50,
-  },
-  aboutText: {
-    textAlign: 'center',
-    fontFamily: 'Roboto',
-    fontSize: 16,
-  }
 });
