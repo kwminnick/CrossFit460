@@ -11,13 +11,12 @@ import {
   Text,
   View,
   ScrollView,
-  WebView,
   ActivityIndicator,
   SafeAreaView,
-  RefreshControl,
   AppState,
 } from 'react-native';
 
+import { Header } from 'react-native-elements';
 import Tabs from 'react-native-tabs';
 import SplashScreen from 'react-native-splash-screen';
 
@@ -41,7 +40,7 @@ export default class App extends Component<{}> {
   setPage(pageIndex) {
     let page = 'WOD';
     if (pageIndex ===  1) {
-      page = 'Schedule';
+      page = 'Tools';
     }
     else if (pageIndex === 2) {
       page = 'About';
@@ -66,25 +65,9 @@ export default class App extends Component<{}> {
     this.setState({appState: nextAppState});
   }
 
-  renderLoadingView() {
-    return (
-      <ActivityIndicator size='large' />
-    );
-  }
-
   render() {
     let page = (<WodGetter />);
-    if(this.state.page === 'Schedule') {
-      page = (
-        <View style={{flex:1, flexDirection: 'row', justifyContent:'center', margin: 20}}>
-          <WebView
-            source={{uri: 'https://www.crossfit460.com/schedule-mobile-app'}}
-            style={{flex: 1}}
-            renderLoading={this.renderLoadingView}
-            startInLoadingState={true}
-          />
-        </View>
-      );
+    if(this.state.page === 'Tools') {
     }
     else if(this.state.page === 'About') {
       page = (<AboutListView />);
@@ -98,25 +81,28 @@ export default class App extends Component<{}> {
     };
 
     return (
-      <SafeAreaView style={styles.safeArea}>
-      <View style={{flex:1, justifyContent: 'space-between'}}>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>CrossFit 460</Text>
-        </View>
-        <View style={styles.container}>
-          {page}
-        </View>
-        <View style={{height: 50}}>
-          <Tabs selected={this.state.page} style={{backgroundColor:'white'}}
-                selectedIconStyle={{borderTopWidth:2,borderTopColor:'#E16D36'}}
-                selectedStyle={{color:'#E16D36'}} onSelect={el=>this.setState({page:el.props.name})}>
+      <SafeAreaView
+        style={styles.safeArea}
+      >
+        <Header
+            backgroundColor='#F16521'
+            centerComponent={{ text: 'CrossFit 460', style: styles.header }}
+        />
+        <View style={{flex:1, justifyContent: 'space-between'}}>
+          <View style={styles.container}>
+            {page}
+          </View>
+          <View style={{height: 50}}>
+            <Tabs selected={this.state.page} style={{backgroundColor:'white'}}
+              selectedIconStyle={{borderTopWidth:2,borderTopColor:'#E16D36'}}
+              selectedStyle={{color:'#E16D36'}} onSelect={el=>this.setState({page:el.props.name})}>
               <Text name="WOD">WOD</Text>
-              <Text name="Schedule">Schedule</Text>
+              <Text name="Tools">Tools</Text>
               <Text name="About">About</Text>
-          </Tabs>
+            </Tabs>
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
     );
   }
 }
@@ -133,8 +119,9 @@ const styles = StyleSheet.create({
     marginRight: 0,
   },
   header: {
-    backgroundColor: '#F16521',
-    height: 40,
+    fontFamily: 'Roboto',
+    fontSize: 24,
+    color: '#fff',
   },
   headerText: {
     color: '#ffffff',
