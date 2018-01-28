@@ -26,6 +26,7 @@ var { Answers } = Fabric;
 
 import WodGetter from './lib/WodGetter';
 import AboutListView from './lib/AboutListView';
+import ToolsListView from './lib/ToolsListView';
 
 export default class App extends Component<{}> {
   constructor(props) {
@@ -36,18 +37,7 @@ export default class App extends Component<{}> {
       pageIndex: 0,
     };
   }
-
-  setPage(pageIndex) {
-    let page = 'WOD';
-    if (pageIndex ===  1) {
-      page = 'Tools';
-    }
-    else if (pageIndex === 2) {
-      page = 'About';
-    }
-    this.setState({page:page});
-  }
-
+  
   componentDidMount() {
     SplashScreen.hide();
     AppState.addEventListener('change', this._handleAppStateChange);
@@ -68,6 +58,7 @@ export default class App extends Component<{}> {
   render() {
     let page = (<WodGetter />);
     if(this.state.page === 'Tools') {
+      page = (<ToolsListView />);
     }
     else if(this.state.page === 'About') {
       page = (<AboutListView />);
