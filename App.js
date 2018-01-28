@@ -14,6 +14,7 @@ import {
   ActivityIndicator,
   SafeAreaView,
   AppState,
+  StatusBar,
 } from 'react-native';
 
 import { Header } from 'react-native-elements';
@@ -37,7 +38,7 @@ export default class App extends Component<{}> {
       pageIndex: 0,
     };
   }
-  
+
   componentDidMount() {
     SplashScreen.hide();
     AppState.addEventListener('change', this._handleAppStateChange);
@@ -56,8 +57,18 @@ export default class App extends Component<{}> {
   }
 
   render() {
+    let header = (<View style={{height: 0}}></View>);
     let page = (<WodGetter />);
-    if(this.state.page === 'Tools') {
+
+    if(this.state.page === 'WOD') {
+      header = (
+        <Header
+            backgroundColor='#F16521'
+            centerComponent={{ text: 'CrossFit 460', style: styles.header }}
+        />
+      );
+    }
+    else if(this.state.page === 'Tools') {
       page = (<ToolsListView />);
     }
     else if(this.state.page === 'About') {
@@ -70,15 +81,11 @@ export default class App extends Component<{}> {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80
     };
-
     return (
       <SafeAreaView
         style={styles.safeArea}
       >
-        <Header
-            backgroundColor='#F16521'
-            centerComponent={{ text: 'CrossFit 460', style: styles.header }}
-        />
+        {header}
         <View style={{flex:1, justifyContent: 'space-between'}}>
           <View style={styles.container}>
             {page}
@@ -105,9 +112,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    marginTop: 0,
-    marginLeft: 0,
-    marginRight: 0,
+    margin: 0,
   },
   header: {
     fontFamily: 'Roboto',
