@@ -11,15 +11,13 @@ import {
   Text,
   View,
   ScrollView,
-  FlatList,
-  WebView,
   ActivityIndicator,
-  Alert,
   SafeAreaView,
-  RefreshControl,
   AppState,
+  StatusBar,
 } from 'react-native';
 
+import { Header } from 'react-native-elements';
 import Tabs from 'react-native-tabs';
 import SplashScreen from 'react-native-splash-screen';
 
@@ -28,6 +26,8 @@ var { Crashlytics } = Fabric;
 var { Answers } = Fabric;
 
 import WodGetter from './lib/WodGetter';
+import AboutListView from './lib/AboutListView';
+import ToolsListView from './lib/ToolsListView';
 
 export default class App extends Component<{}> {
   constructor(props) {
@@ -37,17 +37,6 @@ export default class App extends Component<{}> {
       appState: AppState.currentState,
       pageIndex: 0,
     };
-  }
-
-  setPage(pageIndex) {
-    let page = 'WOD';
-    if (pageIndex ===  1) {
-      page = 'Schedule';
-    }
-    else if (pageIndex === 2) {
-      page = 'About';
-    }
-    this.setState({page:page});
   }
 
   componentDidMount() {
@@ -67,58 +56,23 @@ export default class App extends Component<{}> {
     this.setState({appState: nextAppState});
   }
 
-  renderLoadingView() {
-    return (
-      <ActivityIndicator size='large' />
-    );
-  }
-
   render() {
+    let header = (<View style={{height: 0}}></View>);
     let page = (<WodGetter />);
-    if(this.state.page === 'Schedule') {
-      page = (
-        <View style={{flex:1, flexDirection: 'row', justifyContent:'center', margin: 20}}>
-          <WebView
-            source={{uri: 'https://www.crossfit460.com/schedule-mobile-app'}}
-            style={{flex: 1}}
-            renderLoading={this.renderLoadingView}
-            startInLoadingState={true}
-          />
-        </View>
+
+    if(this.state.page === 'WOD') {
+      header = (
+        <Header
+            backgroundColor='#F16521'
+            centerComponent={{ text: 'CrossFit 460', style: styles.header }}
+        />
       );
     }
+    else if(this.state.page === 'Tools') {
+      page = (<ToolsListView />);
+    }
     else if(this.state.page === 'About') {
-      page = (
-        <View style={styles.aboutView}>
-          <Text style={styles.aboutText}>©2018 Minnick Fitness, dba CrossFit 460</Text>
-          <Text style={styles.aboutText}>All Rights Reserved</Text>
-          <Text style={styles.aboutText}>Version 1.0.0</Text>
-          <Text style={styles.aboutText}> </Text>
-          <Text style={styles.aboutText}>CrossFit is a registered trademark of CrossFit, Inc.</Text>
-          <Text style={styles.aboutText}>CrossFit 460 is a registered affiliate of CrossFit, Inc</Text>
-        </View>
-        /*
-         // TODO - Switch app to navigation app in next version
-        <View
-          style={styles.aboutListView}>
-        <FlatList
-          data={[
-            {key: 'News'},
-            {key: 'About'},
-          ]}
-          renderItem={({item}) => {
-            return (
-              <ListItem
-                title={`${item.key}`}
-                fontFamily='Roboto'
-                onPress={this.getAboutItem.bind(this, item.key)}
-              />
-            );
-          }}
-        />
-      </View>
-      */
-      );
+      page = (<AboutListView />);
     }
 
     Answers.logCustom(`Viewed: ${this.state.page}`)
@@ -127,27 +81,26 @@ export default class App extends Component<{}> {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80
     };
-
     return (
-      <SafeAreaView style={styles.safeArea}>
-      <View style={{flex:1, justifyContent: 'space-between'}}>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>CrossFit 460</Text>
-        </View>
-        <View style={styles.container}>
-          {page}
-        </View>
-        <View style={{height: 50}}>
-          <Tabs selected={this.state.page} style={{backgroundColor:'white'}}
-                selectedIconStyle={{borderTopWidth:2,borderTopColor:'#E16D36'}}
-                selectedStyle={{color:'#E16D36'}} onSelect={el=>this.setState({page:el.props.name})}>
+      <SafeAreaView
+        style={styles.safeArea}
+      >
+        {header}
+        <View style={{flex:1, justifyContent: 'space-between'}}>
+          <View style={styles.container}>
+            {page}
+          </View>
+          <View style={{height: 50}}>
+            <Tabs selected={this.state.page} style={{backgroundColor:'white'}}
+              selectedIconStyle={{borderTopWidth:2,borderTopColor:'#E16D36'}}
+              selectedStyle={{color:'#E16D36'}} onSelect={el=>this.setState({page:el.props.name})}>
               <Text name="WOD">WOD</Text>
-              <Text name="Schedule">Schedule</Text>
+              <Text name="Tools">Tools</Text>
               <Text name="About">About</Text>
-          </Tabs>
+            </Tabs>
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
     );
   }
 }
@@ -159,18 +112,12 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    marginTop: 0,
-    marginLeft: 0,
-    marginRight: 0,
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
+    margin: 0,
   },
   header: {
-    backgroundColor: '#F16521',
-    height: 40,
+    fontFamily: 'Roboto',
+    fontSize: 24,
+    color: '#fff',
   },
   headerText: {
     color: '#ffffff',
@@ -179,22 +126,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'Roboto',
   },
-  aboutListView: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    margin: 10,
-    marginRight: 20,
-  },
-  aboutView: {
-    justifyContent: 'center',
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 50,
-  },
-  aboutText: {
-    textAlign: 'center',
-    fontFamily: 'Roboto',
-    fontSize: 16,
-  }
 });
