@@ -122,8 +122,8 @@ android {
         applicationId "com.crossfit460"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.3"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
